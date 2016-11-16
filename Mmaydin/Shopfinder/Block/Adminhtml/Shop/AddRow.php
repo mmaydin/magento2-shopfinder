@@ -27,7 +27,7 @@ class AddRow extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Initialize Imagegallery Images Edit Block.
+     * Initialize AddRow Block.
      */
     protected function _construct()
     {

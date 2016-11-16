@@ -24,78 +24,93 @@ interface ShopInterface
 
     /**
      * Set ShopId.
+     *
+     * @return $this
      */
     public function setShopId($shopId);
 
     /**
      * Get Name.
      *
-     * @return varchar
+     * @return string
      */
     public function getName();
 
     /**
      * Set Name.
+     *
+     * @return $this
      */
     public function setName($name);
 
     /**
      * Get Identifier.
      *
-     * @return varchar
+     * @return string
      */
     public function getIdentifier();
 
     /**
      * Set Identifier.
+     *
+     * @return $this
      */
     public function setIdentifier($identifier);
 
     /**
      * Get Image.
      *
-     * @return varchar
+     * @return string|null
      */
     public function getImage();
 
     /**
      * Set Image.
+     *
+     * @return $this
      */
     public function setImage($image);
 
     /**
      * Get IsActive.
      *
-     * @return varchar
+     * @return int|null
      */
     public function getIsActive();
 
     /**
-     * Set StartingPrice.
+     * Set IsActive.
+     *
+     * @param int $isActive
+     * @return $this
      */
     public function setIsActive($isActive);
 
     /**
      * Get ModifiedAt.
      *
-     * @return varchar
+     * @return string|null
      */
     public function getModifiedAt();
 
     /**
      * Set ModifiedAt.
+     *
+     * @return $this
      */
     public function setModifiedAt($modifiedAt);
 
     /**
      * Get CreatedAt.
      *
-     * @return varchar
+     * @return string|null
      */
     public function getCreatedAt();
 
     /**
      * Set CreatedAt.
+     *
+     * @return $this
      */
     public function setCreatedAt($createdAt);
 }

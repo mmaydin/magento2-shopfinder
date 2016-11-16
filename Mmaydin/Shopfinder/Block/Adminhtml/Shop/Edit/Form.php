@@ -14,24 +14,38 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_systemStore;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry             $registry
-     * @param \Magento\Framework\Data\FormFactory     $formFactory
-     * @param array                                   $data
+     * @var \Mmaydin\Shopfinder\Model\Status
+     */
+    protected $_statuses;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\Country
+     */
+    protected $_countryFactory;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context           $context
+     * @param \Magento\Framework\Registry                       $registry
+     * @param \Magento\Framework\Data\FormFactory               $formFactory
+     * @param \Mmaydin\Shopfinder\Model\Status                  $statuses
+     * @param \Magento\Store\Model\System\Store                 $systemStore
+     * @param \Magento\Directory\Model\Config\Source\Country    $countryFactory
+     * @param array                                             $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Mmaydin\Shopfinder\Model\Status $options,
+        \Mmaydin\Shopfinder\Model\Status $statuses,
         \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Directory\Model\Config\Source\Country $countryFactory,
         array $data = []
     )
     {
         $this->_systemStore = $systemStore;
-        $this->_options = $options;
-        $this->_wysiwygConfig = $wysiwygConfig;
+        $this->_countryFactory = $countryFactory;
+        $this->_statuses = $statuses;
+
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -42,7 +56,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        $dateFormat = $this->_localeDate->getDateFormat(\IntlDateFormatter::SHORT);
         $model = $this->_coreRegistry->registry('row_data');
         $form = $this->_formFactory->create(
             ['data' => [
@@ -54,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-        $form->setHtmlIdPrefix('mmshop_');
+        $form->setHtmlIdPrefix('mmashop_');
         if ($model->getShopId()) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
@@ -106,25 +119,30 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-        /**
-         * Check is single store mode
-         */
-        /*
-        if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn(
-                'store_id',
-                [
-                    'header' => __('Store View'),
-                    'index' => 'store_id',
-                    'type' => 'store',
-                    'store_all' => true,
-                    'store_view' => true,
-                    'sortable' => false,
-                    'filter_condition_callback' => [$this, '_filterStoreCondition']
-                ]
-            );
-        }
-        */
+        $fieldset->addField(
+            'country',
+            'select',
+            [
+                'name' => 'country',
+                'label' => __('Country'),
+                'id' => 'country',
+                'title' => __('Country'),
+                'values' => $this->_countryFactory->toOptionArray(),
+                'class' => 'required-entry',
+                'required' => true,
+            ]
+        );
+
+        $fieldset->addField(
+            'image',
+            'image',
+            [
+                'title' => __('Image'),
+                'label' => __('Image'),
+                'name' => 'image',
+                'note' => 'Allow image type: jpg, jpeg, gif, png',
+            ]
+        );
 
         $fieldset->addField(
             'is_active',
@@ -134,7 +152,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Status'),
                 'id' => 'is_active',
                 'title' => __('Status'),
-                'values' => $this->_options->getOptionArray(),
+                'values' => $this->_statuses->getOptionArray(),
                 'class' => 'status',
                 'required' => true,
             ]

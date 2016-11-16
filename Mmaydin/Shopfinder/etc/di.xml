@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Mmaydin\Shopfinder\Api\ShopRepositoryInterface" type="Mmaydin\Shopfinder\Model\ShopRepository" />
+    <preference for="Mmaydin\Shopfinder\Api\Data\ShopSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+
     <virtualType name="Mmaydin\Shopfinder\Model\ResourceModel\Shop\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">mma_shop</argument>

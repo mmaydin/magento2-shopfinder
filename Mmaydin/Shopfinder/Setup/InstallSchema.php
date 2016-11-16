@@ -54,6 +54,12 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => false],
             'Identifier'
         )->addColumn(
+            'country',
+            Table::TYPE_TEXT,
+            32,
+            ['nullable' => false],
+            'Country'
+        )->addColumn(
             'image',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
@@ -83,6 +89,9 @@ class InstallSchema implements InstallSchemaInterface
             $installer->getIdxName('mma_shop', ['store_id']),
             ['store_id']
         )->addIndex(
+            $installer->getIdxName('mma_shop', ['country']),
+            ['country']
+        )->addIndex(
             $installer->getIdxName('mma_shop', ['is_active']),
             ['is_active']
         )->addIndex(
@@ -96,34 +105,6 @@ class InstallSchema implements InstallSchemaInterface
         );
 
         $installer->getConnection()->createTable($table);
-
-        /**
-         * Create table 'mma_shop_store'
-         */
-        /*
-        $table = $installer->getConnection()->newTable(
-            $installer->getTable('mma_shop_store')
-        )->addColumn(
-            'shop_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-            null,
-            ['nullable' => false, 'primary' => true],
-            'Shop ID'
-        )->addColumn(
-            'store_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-            null,
-            ['unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Store ID'
-        )->addIndex(
-            $installer->getIdxName('mma_shop_store', ['store_id']),
-            ['store_id']
-        )->setComment(
-            'Mma Shop To Store Linkage Table'
-        );
-        $installer->getConnection()->createTable($table);
-        */
-
         $installer->endSetup();
     }
 }

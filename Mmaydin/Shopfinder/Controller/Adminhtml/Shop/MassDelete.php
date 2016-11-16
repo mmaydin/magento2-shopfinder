@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Grid\Controller\Adminhtml\Grid;
+namespace Mmaydin\Shopfinder\Controller\Adminhtml\Shop;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
@@ -43,14 +43,15 @@ class MassDelete extends \Magento\Backend\App\Action
     public function execute()
     {
         $collection = $this->_filter->getCollection($this->_collectionFactory->create());
-        $recordDeleted = 0;
+        $collectionSize = $collection->getSize();
         foreach ($collection->getItems() as $auctionProduct) {
-            $auctionProduct->setId($auctionProduct->getShopId());
-            $auctionProduct->delete();
-            $recordDeleted++;
+            $shop = $this->_objectManager->get('Mmaydin\Shopfinder\Model\Shop')->load($auctionProduct->getShopId());
+
+            $shop->delete();
         }
+
         $this->messageManager->addSuccess(
-            __('A total of %1 record(s) have been deleted.', $recordDeleted)
+            __('A total of %1 shop(s) have been deleted.', $collectionSize)
         );
 
         return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setPath('*/*/index');

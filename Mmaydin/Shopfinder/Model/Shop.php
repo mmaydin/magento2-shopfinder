@@ -81,7 +81,7 @@ class Shop extends \Magento\Framework\Model\AbstractModel implements ShopInterfa
      */
     public function setIdentifier($identifier)
     {
-        return $this->setData(self::IDENTIFIER, $Iientifier);
+        return $this->setData(self::IDENTIFIER, $identifier);
     }
 
     /**
